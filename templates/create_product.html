@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Register Product{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="eyebrow">PRODUCT REGISTRATION</p>
+
+        <h1>Register New Product</h1>
+
+        <p>
+            Create a digital product passport for a new product.
+        </p>
+
+    </div>
+
+
+    <div class="auth-card">
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <form
+            method="POST"
+            action="{{ url_for('manufacturer.create_product') }}"
+        >
+
+            <div class="form-section">
+
+                <h2>Product Information</h2>
+
+
+                <label>
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    name="product_name"
+                    placeholder="e.g. Dell Inspiron Laptop"
+                    required
+                >
+
+
+                <label>
+                    Model
+                </label>
+
+                <input
+                    type="text"
+                    name="model"
+                    placeholder="e.g. Inspiron 15"
+                    required
+                >
+
+
+                <label>
+                    Serial Number
+                </label>
+
+                <input
+                    type="text"
+                    name="serial_number"
+                    placeholder="Enter unique serial number"
+                    required
+                >
+
+
+                <label>
+                    Manufacturing Date
+                </label>
+
+                <input
+                    type="date"
+                    name="manufacturing_date"
+                    required
+                >
+
+
+                <label>
+                    Batch Number
+                </label>
+
+                <input
+                    type="text"
+                    name="batch_number"
+                    placeholder="e.g. BATCH-2026-08"
+                >
+
+
+                <label>
+                    Category
+                </label>
+
+                <input
+                    type="text"
+                    name="category"
+                    placeholder="e.g. Laptop"
+                >
+
+            </div>
+
+
+            <div class="manufacturer-info">
+
+                <strong>Manufacturer</strong>
+
+                <span>
+                    {{ manufacturer.CompanyName }}
+                </span>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Create Product
+            </button>
+
+        </form>
+
+
+        <a
+            href="{{ url_for('manufacturer.dashboard') }}"
+            class="back-link"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

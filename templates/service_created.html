@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Service Created{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="eyebrow">
+            SERVICE HISTORY
+        </p>
+
+        <h1>
+            Service Record Created
+        </h1>
+
+        <p>
+            The service record has been successfully added.
+        </p>
+
+    </div>
+
+
+    <div class="auth-card">
+
+        <div class="product-details">
+
+            <div>
+                <span>Service ID</span>
+                <strong>{{ service_id }}</strong>
+            </div>
+
+            <div>
+                <span>Product ID</span>
+                <strong>{{ product_id }}</strong>
+            </div>
+
+        </div>
+
+
+        <div style="margin-top: 30px;">
+
+            <a
+                href="{{ url_for('service.service_records', product_id=product_id) }}"
+                class="primary-button"
+            >
+                View Service History
+            </a>
+
+        </div>
+
+
+        <div style="margin-top: 15px;">
+
+            <a
+                href="{{ url_for('service.dashboard') }}"
+                class="secondary-button"
+            >
+                Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

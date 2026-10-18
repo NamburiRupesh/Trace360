@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Digital Product Passport{% endblock %}
+
+
+{% block content %}
+
+<section class="home">
+
+    <div class="home-header">
+
+        <p class="eyebrow">
+            DIGITAL PRODUCT PASSPORT
+        </p>
+
+        <h1>
+            Know Your Product.
+            <span>Track Its Journey.</span>
+        </h1>
+
+        <p class="home-description">
+
+            Trace360 provides a centralized platform to
+            access product information and lifecycle records
+            using a unique Product ID.
+
+        </p>
+
+    </div>
+
+
+    <!-- CUSTOMER PRODUCT SEARCH -->
+
+    <div class="search-card">
+
+        <h2>
+            Find Your Product
+        </h2>
+
+        <p>
+            Enter the unique Product ID to view product details.
+        </p>
+
+
+        <form
+            action="/search-product"
+            method="POST"
+            class="search-form"
+        >
+
+            <input
+                type="text"
+                name="product_id"
+                placeholder="Enter Product ID"
+                required
+            >
+
+            <button type="submit">
+                View Product
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- AUTHORIZED ACCESS -->
+
+    <section class="portal-section">
+
+        <p class="eyebrow">
+            AUTHORIZED ACCESS
+        </p>
+
+        <h2>
+            Access Your Trace360 Portal
+        </h2>
+
+        <p class="portal-description">
+            Select the portal that matches your organization.
+        </p>
+
+
+        <div class="portal-grid">
+
+
+            <!-- MANUFACTURER -->
+
+            <div class="portal-card">
+
+                <div class="portal-icon">
+                    M
+                </div>
+
+                <h3>
+                    Manufacturer Portal
+                </h3>
+
+                <p>
+                    Register products and manage product
+                    information throughout the product lifecycle.
+                </p>
+
+                <a
+                    href="{{ url_for('auth.login', role='MANUFACTURER') }}"
+                    class="portal-button"
+                >
+                    Manufacturer Login
+                </a>
+
+                <p class="register-text">
+
+                    New manufacturer?
+
+                    <a
+                        href="{{ url_for('auth.register_manufacturer') }}"
+                    >
+                        Create Account
+                    </a>
+
+                </p>
+
+            </div>
+
+
+            <!-- SERVICE CENTER -->
+
+            <div class="portal-card">
+
+                <div class="portal-icon">
+                    S
+                </div>
+
+                <h3>
+                    Service Center Portal
+                </h3>
+
+                <p>
+                    Access registered products and record
+                    service, repair, maintenance, diagnosis,
+                    and other product updates.
+                </p>
+
+                <a
+                    href="{{ url_for('auth.login', role='SERVICE_CENTER') }}"
+                    class="portal-button"
+                >
+                    Service Center Login
+                </a>
+
+                <p class="register-text">
+
+                    New service center?
+
+                    <a
+                        href="{{ url_for('auth.register_service_center') }}"
+                    >
+                        Create Account
+                    </a>
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Manufacturer Registration{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="tagline">MANUFACTURER PORTAL</p>
+
+        <h1>Create Manufacturer Account</h1>
+
+        <p>
+            Register your organization with Trace360 to manage
+            digital product passports.
+        </p>
+
+    </div>
+
+
+    <div class="auth-card">
+
+        <form method="POST">
+
+            <div class="form-section">
+
+                <h2>Organization Details</h2>
+
+                <div class="form-group">
+
+                    <label for="company_name">
+                        Company Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="company_name"
+                        name="company_name"
+                        placeholder="e.g. Dell Technologies"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="registration_number">
+                        Registration Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registration_number"
+                        name="registration_number"
+                        placeholder="e.g. REG-DELL-001"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="gstin">
+                        GSTIN
+                    </label>
+
+                    <input
+                        type="text"
+                        id="gstin"
+                        name="gstin"
+                        placeholder="e.g. GSTIN-DELL-001"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-section">
+
+                <h2>Account Details</h2>
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="company@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="confirm_password">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirm_password"
+                        name="confirm_password"
+                        placeholder="Confirm your password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            {% if error %}
+
+            <div class="error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <button type="submit" class="primary-button">
+                Create Manufacturer Account
+            </button>
+
+        </form>
+
+
+        <div class="auth-footer">
+
+            <p>
+                Already have an account?
+                <a href="/manufacturer-login">
+                    Manufacturer Login
+                </a>
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

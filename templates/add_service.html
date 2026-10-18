@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Add Service{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="eyebrow">
+            SERVICE HISTORY
+        </p>
+
+        <h1>
+            Add Service Record
+        </h1>
+
+        <p>
+            Record the service performed on a product.
+        </p>
+
+    </div>
+
+
+    <div class="auth-card">
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            <label>
+                Product ID
+            </label>
+
+            <input
+                type="text"
+                name="product_id"
+                placeholder="TRC-2026-XXXXXXXX"
+                required
+            >
+
+
+            <label>
+                Service Type
+            </label>
+
+            <input
+                type="text"
+                name="service_type"
+                placeholder="Repair / Maintenance / Inspection"
+                required
+            >
+
+
+            <label>
+                Problem Reported
+            </label>
+
+            <textarea
+                name="problem_reported"
+                rows="3"
+            ></textarea>
+
+
+            <label>
+                Diagnosis
+            </label>
+
+            <textarea
+                name="diagnosis"
+                rows="3"
+            ></textarea>
+
+
+            <label>
+                Action Taken
+            </label>
+
+            <textarea
+                name="action_taken"
+                rows="3"
+            ></textarea>
+
+
+            <label>
+                Remarks
+            </label>
+
+            <textarea
+                name="remarks"
+                rows="3"
+            ></textarea>
+
+
+            <label>
+                Service Date
+            </label>
+
+            <input
+                type="date"
+                name="service_date"
+                required
+            >
+
+
+            <label>
+                Cost
+            </label>
+
+            <input
+                type="number"
+                step="0.01"
+                name="cost"
+                placeholder="0.00"
+            >
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Save Service Record
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

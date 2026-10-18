@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Service Center Registration{% endblock %}
+
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="eyebrow">
+            SERVICE CENTER PORTAL
+        </p>
+
+        <h1>
+            Create Service Center Account
+        </h1>
+
+        <p>
+            Register your service organization with Trace360.
+        </p>
+
+    </div>
+
+
+    <div class="auth-card">
+
+        <form method="POST">
+
+
+            <h3 class="form-section-title">
+                Service Center Details
+            </h3>
+
+
+            <label>
+                Center Name
+            </label>
+
+            <input
+                type="text"
+                name="center_name"
+                placeholder="e.g. Dell Service Center"
+                required
+            >
+
+
+            <label>
+                License Number
+            </label>
+
+            <input
+                type="text"
+                name="license_number"
+                placeholder="e.g. LIC-2026-001"
+            >
+
+
+            <label>
+                Phone Number
+            </label>
+
+            <input
+                type="text"
+                name="phone"
+                placeholder="Enter phone number"
+            >
+
+
+            <h3 class="form-section-title">
+                Account Details
+            </h3>
+
+
+            <label>
+                Username
+            </label>
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Choose username"
+                required
+            >
+
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                name="email"
+                placeholder="service@example.com"
+                required
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Create password"
+                required
+            >
+
+
+            <label>
+                Confirm Password
+            </label>
+
+            <input
+                type="password"
+                name="confirm_password"
+                placeholder="Confirm password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Create Service Center Account
+            </button>
+
+
+        </form>
+
+
+        <p class="account-link">
+
+            Already have an account?
+
+            <a
+                href="{{ url_for('auth.login', role='SERVICE_CENTER') }}"
+            >
+                Service Center Login
+            </a>
+
+        </p>
+
+
+    </div>
+
+</section>
+
+{% endblock %}

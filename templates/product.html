@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Product Details{% endblock %}
+
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="eyebrow">
+            DIGITAL PRODUCT PASSPORT
+        </p>
+
+        <h1>
+            Product Details
+        </h1>
+
+        <p>
+            Complete lifecycle information for this product.
+        </p>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- PRODUCT INFORMATION -->
+    <!-- ========================================= -->
+
+    <div class="auth-card">
+
+        <h2>
+            Product Information
+        </h2>
+
+        <div class="product-details">
+
+            <div>
+                <span>Product ID</span>
+                <strong>{{ product.ProductID }}</strong>
+            </div>
+
+            <div>
+                <span>Product Name</span>
+                <strong>{{ product.ProductName }}</strong>
+            </div>
+
+            <div>
+                <span>Model</span>
+                <strong>{{ product.Model }}</strong>
+            </div>
+
+            <div>
+                <span>Serial Number</span>
+                <strong>{{ product.SerialNumber }}</strong>
+            </div>
+
+            <div>
+                <span>Manufacturer</span>
+                <strong>{{ product.CompanyName }}</strong>
+            </div>
+
+            <div>
+                <span>Manufacturing Date</span>
+                <strong>{{ product.ManufacturingDate }}</strong>
+            </div>
+
+            <div>
+                <span>Batch Number</span>
+                <strong>{{ product.BatchNumber }}</strong>
+            </div>
+
+            <div>
+                <span>Category</span>
+                <strong>{{ product.Category }}</strong>
+            </div>
+
+            <div>
+                <span>Status</span>
+                <strong>{{ product.Status }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- SERVICE HISTORY -->
+    <!-- ========================================= -->
+
+    <div class="auth-card" style="margin-top: 30px;">
+
+        <h2>
+            Service History
+        </h2>
+
+        {% if service_history %}
+
+            {% for service in service_history %}
+
+            <div class="service-record">
+
+                <div class="product-status">
+                    {{ service.ServiceType }}
+                </div>
+
+                <h3>
+                    Service #{{ service.ServiceID }}
+                </h3>
+
+                <p>
+                    <strong>Service Center:</strong>
+                    {{ service.CenterName }}
+                </p>
+
+                <p>
+                    <strong>Service Date:</strong>
+                    {{ service.ServiceDate }}
+                </p>
+
+                {% if service.ProblemReported %}
+
+                <p>
+                    <strong>Problem Reported:</strong>
+                    {{ service.ProblemReported }}
+                </p>
+
+                {% endif %}
+
+
+                {% if service.Diagnosis %}
+
+                <p>
+                    <strong>Diagnosis:</strong>
+                    {{ service.Diagnosis }}
+                </p>
+
+                {% endif %}
+
+
+                {% if service.ActionTaken %}
+
+                <p>
+                    <strong>Action Taken:</strong>
+                    {{ service.ActionTaken }}
+                </p>
+
+                {% endif %}
+
+
+                {% if service.Remarks %}
+
+                <p>
+                    <strong>Remarks:</strong>
+                    {{ service.Remarks }}
+                </p>
+
+                {% endif %}
+
+
+                {% if service.Cost is not none %}
+
+                <p>
+                    <strong>Service Cost:</strong>
+                    ₹{{ service.Cost }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            {% if not loop.last %}
+                <hr>
+            {% endif %}
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <div class="no-records">
+
+                <p>
+                    No service records are available for this product.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <div style="margin-top: 25px;">
+
+        <a
+            href="{{ url_for('public.home') }}"
+            class="secondary-button"
+        >
+            Search Another Product
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

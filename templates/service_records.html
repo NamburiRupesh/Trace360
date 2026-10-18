@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Service History{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="eyebrow">
+            SERVICE HISTORY
+        </p>
+
+        <h1>
+            Product Service Records
+        </h1>
+
+        <p>
+            Product ID: {{ product_id }}
+        </p>
+
+    </div>
+
+
+    <div class="auth-card">
+
+        {% if records %}
+
+            {% for record in records %}
+
+            <div class="service-record">
+
+                <div class="product-status">
+                    {{ record.ServiceType }}
+                </div>
+
+                <h2>
+                    Service #{{ record.ServiceID }}
+                </h2>
+
+                <p>
+                    <strong>Service Center:</strong>
+                    {{ record.CenterName }}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    {{ record.ServiceDate }}
+                </p>
+
+                <p>
+                    <strong>Problem:</strong>
+                    {{ record.ProblemReported }}
+                </p>
+
+                <p>
+                    <strong>Diagnosis:</strong>
+                    {{ record.Diagnosis }}
+                </p>
+
+                <p>
+                    <strong>Action Taken:</strong>
+                    {{ record.ActionTaken }}
+                </p>
+
+                <p>
+                    <strong>Remarks:</strong>
+                    {{ record.Remarks }}
+                </p>
+
+                <p>
+                    <strong>Cost:</strong>
+                    ₹{{ record.Cost }}
+                </p>
+
+
+                <a
+                    href="{{ url_for(
+                        'service.update_service',
+                        service_id=record.ServiceID
+                    ) }}"
+                    class="secondary-button"
+                >
+                    Update Record
+                </a>
+
+            </div>
+
+            <hr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>
+                No service records found for this product.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

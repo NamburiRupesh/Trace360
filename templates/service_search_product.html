@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Search Product{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="eyebrow">
+            SERVICE CENTER
+        </p>
+
+        <h1>
+            Find Product
+        </h1>
+
+        <p>
+            Enter the Product ID to access its information.
+        </p>
+
+    </div>
+
+
+    <div class="auth-card">
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            <label>
+                Product ID
+            </label>
+
+            <input
+                type="text"
+                name="product_id"
+                placeholder="TRC-2026-XXXXXXXX"
+                required
+            >
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Search Product
+            </button>
+
+        </form>
+
+
+        {% if product %}
+
+        <hr>
+
+        <div class="product-details">
+
+            <div>
+                <span>Product ID</span>
+                <strong>{{ product.ProductID }}</strong>
+            </div>
+
+            <div>
+                <span>Product</span>
+                <strong>{{ product.ProductName }}</strong>
+            </div>
+
+            <div>
+                <span>Model</span>
+                <strong>{{ product.Model }}</strong>
+            </div>
+
+            <div>
+                <span>Serial Number</span>
+                <strong>{{ product.SerialNumber }}</strong>
+            </div>
+
+            <div>
+                <span>Manufacturer</span>
+                <strong>{{ product.CompanyName }}</strong>
+            </div>
+
+            <div>
+                <span>Status</span>
+                <strong>{{ product.Status }}</strong>
+            </div>
+
+        </div>
+
+
+        <div style="margin-top: 25px;">
+
+            <a
+                href="{{ url_for(
+                    'service.service_records',
+                    product_id=product.ProductID
+                ) }}"
+                class="secondary-button"
+            >
+                View Service History
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}

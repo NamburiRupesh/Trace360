@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Product Created{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-header">
+
+        <p class="eyebrow">
+            PRODUCT REGISTERED
+        </p>
+
+        <h1>
+            Product Created Successfully
+        </h1>
+
+        <p>
+            The product has been added to the Trace360 database.
+        </p>
+
+    </div>
+
+
+    <div class="auth-card success-card">
+
+        <p class="product-label">
+            PRODUCT NAME
+        </p>
+
+        <h2>
+            {{ product_name }}
+        </h2>
+
+
+        <p class="product-label">
+            UNIQUE PRODUCT ID
+        </p>
+
+        <div class="product-id">
+            {{ product_id }}
+        </div>
+
+
+        <p class="success-message">
+
+            This Product ID can now be used by the
+            customer or owner to retrieve the product
+            passport from the Trace360 home page.
+
+        </p>
+
+
+        <a
+            href="{{ url_for('manufacturer.dashboard') }}"
+            class="primary-button"
+        >
+            Back to Dashboard
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}
