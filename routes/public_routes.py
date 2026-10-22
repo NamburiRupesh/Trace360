@@ -19,72 +19,49 @@ def search_product():
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
+    try:
+        # READ PRODUCT DETAILS
+        product_query = """
+            SELECT
+                p.ProductID,
+                p.ProductName,
+                p.Model,
+                p.SerialNumber,
+                p.ManufacturingDate,
+                p.BatchNumber,
+                p.Category,
+                p.Status,
+                m.CompanyName
+            FROM Product p
+            JOIN Manufacturer m
+                ON p.ManufacturerID = m.ManufacturerID
+            WHERE p.ProductID = %s
+        """
 
-    # READ PRODUCT DETAILS
+        cursor.execute(product_query, (product_id,))
+        product = cursor.fetchone()
 
-    product_query = """
-        SELECT
-            p.ProductID,
-            p.ProductName,
-            p.Model,
-            p.SerialNumber,
-            p.ManufacturingDate,
-            p.BatchNumber,
-            p.Category,
-            p.Status,
-            m.CompanyName
-        FROM Product p
-        JOIN Manufacturer m
-            ON p.ManufacturerID = m.ManufacturerID
-        WHERE p.ProductID = %s
-    """
+        if not product:
+            return render_template(
+                "index.html",
+                error="Product not found."
+            )
 
-    cursor.execute(product_query, (product_id,))
-    product = cursor.fetchone()
+        # CALL STORED PROCEDURE TO READ SERVICE HISTORY
+        cursor.callproc("GetProductLifecycle", (product_id,))
 
+        service_history = []
+        for result in cursor.stored_results():
+            service_history = result.fetchall()
+            break
 
-    # READ SERVICE HISTORY
-
-    service_query = """
-        SELECT
-            sh.ServiceID,
-            sh.ServiceType,
-            sh.ProblemReported,
-            sh.Diagnosis,
-            sh.ActionTaken,
-            sh.Remarks,
-            sh.ServiceDate,
-            sh.Cost,
-            sc.CenterName
-        FROM ServiceHistory sh
-        JOIN ServiceCenter sc
-            ON sh.ServiceCenterID = sc.ServiceCenterID
-        WHERE sh.ProductID = %s
-        ORDER BY sh.ServiceDate ASC, sh.ServiceID ASC
-    """
-
-    cursor.execute(service_query, (product_id,))
-    service_history = cursor.fetchall()
-
-
-    cursor.close()
-    connection.close()
-
-    # PRODUCT NOT FOUND
-
-    if not product:
-
+        # DISPLAY PRODUCT + SERVICE HISTORY
         return render_template(
-            "index.html",
-            error="Product not found."
+            "product.html",
+            product=product,
+            service_history=service_history
         )
 
-
-
-    # DISPLAY PRODUCT + SERVICE HISTORY
-
-    return render_template(
-        "product.html",
-        product=product,
-        service_history=service_history
-    )
+    finally:
+        cursor.close()
+        connection.close()
