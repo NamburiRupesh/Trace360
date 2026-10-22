@@ -1,9 +1,8 @@
 -- Trace360: Stored procedure and trigger setup
--- IMPORTANT:
--- 1. Select the SAME database that database.py connects to before running this script.
--- 2. In the current repository, database.py uses trace360_db1, while trace360.sql creates trace360_db.
---    Confirm which database contains your live Trace360 tables before executing.
--- 3. Run this script in MySQL Workbench (or another SQL client that supports DELIMITER).
+-- This script is specifically for the live Trace360 database: trace360_db1.
+-- Run the entire script in MySQL Workbench (supports DELIMITER).
+
+USE trace360_db1;
 
 CREATE TABLE IF NOT EXISTS ServiceHistoryAudit (
     AuditID INT AUTO_INCREMENT PRIMARY KEY,
@@ -63,7 +62,7 @@ END //
 
 DELIMITER ;
 
--- Verify the database objects after running this script:
+-- Verify the database objects:
 -- SHOW PROCEDURE STATUS WHERE Db = DATABASE();
 -- SHOW TRIGGERS;
 -- SELECT * FROM ServiceHistoryAudit ORDER BY AuditID DESC;
