@@ -60,7 +60,7 @@ def search_product():
         JOIN ServiceCenter sc
             ON sh.ServiceCenterID = sc.ServiceCenterID
         WHERE sh.ProductID = %s
-        ORDER BY sh.ServiceDate DESC
+        ORDER BY sh.ServiceDate ASC, sh.ServiceID ASC
     """
 
     cursor.execute(service_query, (product_id,))
