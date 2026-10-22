@@ -3,110 +3,55 @@
 {% block title %}Trace360 | Manufacturer Dashboard{% endblock %}
 
 {% block content %}
-
 <section class="dashboard-page">
-
     <div class="dashboard-header">
-
         <div>
             <p class="eyebrow">MANUFACTURER PORTAL</p>
-
             <h1>Manufacturer Dashboard</h1>
-
             <p>
                 Manage registered products and their digital
                 product passport information.
             </p>
         </div>
-
-        <div class="user-badge">
-            {{ session["username"] }}
-        </div>
-
+        <div class="user-badge">{{ session["username"] }}</div>
     </div>
 
-
     <div class="dashboard-grid">
-
-        <!-- CREATE PRODUCT -->
-
         <div class="dashboard-card">
-
-            <div class="card-icon">
-                +
-            </div>
-
+            <div class="card-icon">+</div>
             <h2>Register New Product</h2>
-
             <p>
                 Create a new digital product passport and
                 generate a unique Product ID.
             </p>
-
             <a
                 href="{{ url_for('manufacturer.create_product') }}"
                 class="primary-button"
-            >
-                Register Product
-            </a>
-
+            >Register Product</a>
         </div>
-
-
-        <!-- FUTURE -->
 
         <div class="dashboard-card">
-
-            <div class="card-icon">
-                P
-            </div>
-
+            <div class="card-icon">P</div>
             <h2>Product Records</h2>
-
             <p>
-                View and manage products registered by
-                your organization.
+                View products registered by your organization,
+                including their IDs, models and current status.
             </p>
-
-            <button class="secondary-button" disabled>
-                Coming Soon
-            </button>
-
+            <a
+                href="{{ url_for('manufacturer.products') }}"
+                class="primary-button"
+            >View Product Records</a>
         </div>
-
     </div>
-
 
     <div class="dashboard-info">
-
         <h2>How Trace360 Works</h2>
-
         <div class="process-grid">
-
-            <div>
-                <strong>01</strong>
-                <span>Register Product</span>
-            </div>
-
-            <div>
-                <strong>02</strong>
-                <span>Generate Product ID</span>
-            </div>
-
-            <div>
-                <strong>03</strong>
-                <span>Customer Searches ID</span>
-            </div>
-
-            <div>
-                <strong>04</strong>
-                <span>View Product Passport</span>
-            </div>
-
+            <div><strong>01</strong><span>Register Product</span></div>
+            <div><strong>02</strong><span>Generate Product ID</span></div>
+            <div><strong>03</strong><span>Customer Searches ID</span></div>
+            <div><strong>04</strong><span>View Product Passport</span></div>
         </div>
-
     </div>
-
 </section>
-
 {% endblock %}
