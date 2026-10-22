@@ -87,107 +87,124 @@
 
 
     <!-- ========================================= -->
-    <!-- SERVICE HISTORY -->
+    <!-- PRODUCT LIFECYCLE TIMELINE -->
     <!-- ========================================= -->
 
-    <div class="auth-card" style="margin-top: 30px;">
+    <div class="auth-card lifecycle-card">
 
-        <h2>
-            Service History
-        </h2>
+        <div class="lifecycle-heading">
+            <div>
+                <p class="eyebrow">PRODUCT JOURNEY</p>
+                <h2>Product Lifecycle Timeline</h2>
+                <p class="lifecycle-subtitle">
+                    Follow this product from manufacturing through its recorded service events.
+                </p>
+            </div>
 
-        {% if service_history %}
+            <div class="lifecycle-count">
+                {{ service_history|length + 1 }}
+                <span>lifecycle events</span>
+            </div>
+        </div>
 
-            {% for service in service_history %}
+        <div class="lifecycle-timeline">
 
-            <div class="service-record">
-
-                <div class="product-status">
-                    {{ service.ServiceType }}
+            <article class="timeline-event">
+                <div class="timeline-marker manufacturing-marker">
+                    <span>01</span>
                 </div>
 
-                <h3>
-                    Service #{{ service.ServiceID }}
-                </h3>
+                <div class="timeline-content">
+                    <div class="timeline-event-top">
+                        <span class="timeline-type manufacturing-type">Manufacturing</span>
+                        <span class="timeline-date">
+                            {% if product.ManufacturingDate %}
+                                {{ product.ManufacturingDate }}
+                            {% else %}
+                                Date not available
+                            {% endif %}
+                        </span>
+                    </div>
 
-                <p>
-                    <strong>Service Center:</strong>
-                    {{ service.CenterName }}
-                </p>
+                    <h3>Product Registered</h3>
+                    <p>
+                        This product was registered in Trace360 by
+                        <strong>{{ product.CompanyName }}</strong>.
+                    </p>
 
-                <p>
-                    <strong>Service Date:</strong>
-                    {{ service.ServiceDate }}
-                </p>
+                    {% if product.BatchNumber %}
+                    <p class="timeline-detail">
+                        <strong>Batch:</strong> {{ product.BatchNumber }}
+                    </p>
+                    {% endif %}
+                </div>
+            </article>
 
-                {% if service.ProblemReported %}
+            {% for service in service_history %}
+            <article class="timeline-event">
+                <div class="timeline-marker service-marker">
+                    <span>{{ "%02d"|format(loop.index + 1) }}</span>
+                </div>
 
-                <p>
-                    <strong>Problem Reported:</strong>
-                    {{ service.ProblemReported }}
-                </p>
+                <div class="timeline-content">
+                    <div class="timeline-event-top">
+                        <span class="timeline-type service-type">
+                            {{ service.ServiceType or "Service" }}
+                        </span>
+                        <span class="timeline-date">
+                            {% if service.ServiceDate %}
+                                {{ service.ServiceDate }}
+                            {% else %}
+                                Date not available
+                            {% endif %}
+                        </span>
+                    </div>
 
-                {% endif %}
+                    <h3>Service Record #{{ service.ServiceID }}</h3>
 
+                    <p class="timeline-detail">
+                        <strong>Service Center:</strong> {{ service.CenterName }}
+                    </p>
 
-                {% if service.Diagnosis %}
+                    {% if service.ProblemReported %}
+                    <p class="timeline-detail">
+                        <strong>Problem Reported:</strong> {{ service.ProblemReported }}
+                    </p>
+                    {% endif %}
 
-                <p>
-                    <strong>Diagnosis:</strong>
-                    {{ service.Diagnosis }}
-                </p>
+                    {% if service.Diagnosis %}
+                    <p class="timeline-detail">
+                        <strong>Diagnosis:</strong> {{ service.Diagnosis }}
+                    </p>
+                    {% endif %}
 
-                {% endif %}
+                    {% if service.ActionTaken %}
+                    <p class="timeline-detail">
+                        <strong>Action Taken:</strong> {{ service.ActionTaken }}
+                    </p>
+                    {% endif %}
 
+                    {% if service.Remarks %}
+                    <p class="timeline-detail">
+                        <strong>Remarks:</strong> {{ service.Remarks }}
+                    </p>
+                    {% endif %}
 
-                {% if service.ActionTaken %}
-
-                <p>
-                    <strong>Action Taken:</strong>
-                    {{ service.ActionTaken }}
-                </p>
-
-                {% endif %}
-
-
-                {% if service.Remarks %}
-
-                <p>
-                    <strong>Remarks:</strong>
-                    {{ service.Remarks }}
-                </p>
-
-                {% endif %}
-
-
-                {% if service.Cost is not none %}
-
-                <p>
-                    <strong>Service Cost:</strong>
-                    ₹{{ service.Cost }}
-                </p>
-
-                {% endif %}
-
-            </div>
-
-            {% if not loop.last %}
-                <hr>
-            {% endif %}
-
+                    {% if service.Cost is not none %}
+                    <p class="timeline-cost">
+                        Service Cost: ₹{{ service.Cost }}
+                    </p>
+                    {% endif %}
+                </div>
+            </article>
             {% endfor %}
 
+        </div>
 
-        {% else %}
-
-            <div class="no-records">
-
-                <p>
-                    No service records are available for this product.
-                </p>
-
-            </div>
-
+        {% if not service_history %}
+        <p class="lifecycle-empty">
+            No service events have been recorded yet. The manufacturing event is shown above.
+        </p>
         {% endif %}
 
     </div>
