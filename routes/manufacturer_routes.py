@@ -8,9 +8,7 @@ from flask import (
 )
 
 from database import get_db_connection
-
 from datetime import datetime
-
 import uuid
 
 
@@ -21,128 +19,121 @@ manufacturer_bp = Blueprint(
 )
 
 
-
 # MANUFACTURER DASHBOARD
-
 @manufacturer_bp.route("/dashboard")
 def dashboard():
-
-    # Check login
     if "user_id" not in session:
         return redirect(
-            url_for(
-                "auth.login",
-                role="MANUFACTURER"
-            )
+            url_for("auth.login", role="MANUFACTURER")
         )
 
-    # Check role
     if session.get("role") != "MANUFACTURER":
         return "Access denied."
 
-    return render_template(
-        "manufacturer_dashboard.html"
-    )
+    return render_template("manufacturer_dashboard.html")
 
+
+# VIEW PRODUCTS REGISTERED BY THE LOGGED-IN MANUFACTURER
+@manufacturer_bp.route("/products")
+def products():
+    if "user_id" not in session:
+        return redirect(
+            url_for("auth.login", role="MANUFACTURER")
+        )
+
+    if session.get("role") != "MANUFACTURER":
+        return "Access denied."
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        cursor.execute(
+            """
+            SELECT ManufacturerID, CompanyName
+            FROM Manufacturer
+            WHERE UserID = %s
+            """,
+            (session["user_id"],)
+        )
+        manufacturer = cursor.fetchone()
+
+        if not manufacturer:
+            return "Manufacturer profile not found."
+
+        cursor.execute(
+            """
+            SELECT
+                ProductID,
+                ProductName,
+                Model,
+                SerialNumber,
+                ManufacturingDate,
+                BatchNumber,
+                Category,
+                Status
+            FROM Product
+            WHERE ManufacturerID = %s
+            ORDER BY CreatedAt DESC, ProductID DESC
+            """,
+            (manufacturer["ManufacturerID"],)
+        )
+        products = cursor.fetchall()
+
+        return render_template(
+            "manufacturer_products.html",
+            manufacturer=manufacturer,
+            products=products
+        )
+    finally:
+        cursor.close()
+        connection.close()
 
 
 # CREATE PRODUCT
-
 @manufacturer_bp.route(
     "/create-product",
     methods=["GET", "POST"]
 )
 def create_product():
-
-    # Check login
-
     if "user_id" not in session:
         return redirect(
-            url_for(
-                "auth.login",
-                role="MANUFACTURER"
-            )
+            url_for("auth.login", role="MANUFACTURER")
         )
-
-
-
-    # Check role
 
     if session.get("role") != "MANUFACTURER":
         return "Access denied."
 
-
     connection = get_db_connection()
-
-    cursor = connection.cursor(
-        dictionary=True
-    )
-
-
-
-    # Find manufacturer profile
-
+    cursor = connection.cursor(dictionary=True)
 
     cursor.execute(
         """
-        SELECT
-            ManufacturerID,
-            CompanyName
+        SELECT ManufacturerID, CompanyName
         FROM Manufacturer
         WHERE UserID = %s
         """,
         (session["user_id"],)
     )
-
     manufacturer = cursor.fetchone()
 
-
     if not manufacturer:
-
         cursor.close()
         connection.close()
-
         return "Manufacturer profile not found."
 
-
-    # FORM SUBMISSION
-
     if request.method == "POST":
-
-        product_name = request.form.get(
-            "product_name"
-        )
-
-        model = request.form.get(
-            "model"
-        )
-
-        serial_number = request.form.get(
-            "serial_number"
-        )
-
-        manufacturing_date = request.form.get(
-            "manufacturing_date"
-        )
-
-        batch_number = request.form.get(
-            "batch_number"
-        )
-
-        category = request.form.get(
-            "category"
-        )
-
-
-        # Generate unique Product ID
+        product_name = request.form.get("product_name")
+        model = request.form.get("model")
+        serial_number = request.form.get("serial_number")
+        manufacturing_date = request.form.get("manufacturing_date")
+        batch_number = request.form.get("batch_number")
+        category = request.form.get("category")
 
         product_id = (
             f"TRC-{datetime.now().year}-"
             f"{uuid.uuid4().hex[:8].upper()}"
         )
-
-
-        # INSERT PRODUCT
 
         query = """
             INSERT INTO Product
@@ -157,20 +148,8 @@ def create_product():
                 ManufacturerID,
                 Status
             )
-            VALUES
-            (
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                %s,
-                'ACTIVE'
-            )
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'ACTIVE')
         """
-
 
         values = (
             product_id,
@@ -183,34 +162,19 @@ def create_product():
             manufacturer["ManufacturerID"]
         )
 
-
         try:
-
-            cursor.execute(
-                query,
-                values
-            )
-
+            cursor.execute(query, values)
             connection.commit()
-
-
             cursor.close()
             connection.close()
-
-
-            # Show generated Product ID
 
             return render_template(
                 "product_created.html",
                 product_id=product_id,
                 product_name=product_name
             )
-
-
         except Exception as e:
-
             connection.rollback()
-
             cursor.close()
             connection.close()
 
@@ -219,9 +183,6 @@ def create_product():
                 manufacturer=manufacturer,
                 error=f"Error creating product: {e}"
             )
-
-
-    # DISPLAY FORM
 
     cursor.close()
     connection.close()
