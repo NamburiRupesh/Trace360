@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Trace360 | Product Records{% endblock %}
+
+{% block content %}
+<section class="dashboard-page">
+    <div class="dashboard-header">
+        <div>
+            <p class="eyebrow">MANUFACTURER PORTAL</p>
+            <h1>Product Records</h1>
+            <p>Products registered by {{ manufacturer.CompanyName }}.</p>
+        </div>
+        <a href="{{ url_for('manufacturer.create_product') }}" class="primary-button">
+            Register New Product
+        </a>
+    </div>
+
+    {% if products %}
+    <div class="product-records-list">
+        {% for product in products %}
+        <article class="dashboard-card product-record">
+            <div>
+                <p class="product-record-id">{{ product.ProductID }}</p>
+                <h2>{{ product.ProductName }}</h2>
+                <p class="product-record-model">Model: {{ product.Model }}</p>
+            </div>
+            <div class="product-record-details">
+                <div><span>Serial Number</span><strong>{{ product.SerialNumber }}</strong></div>
+                <div><span>Manufacturing Date</span><strong>{{ product.ManufacturingDate }}</strong></div>
+                <div><span>Batch Number</span><strong>{{ product.BatchNumber or "—" }}</strong></div>
+                <div><span>Category</span><strong>{{ product.Category or "—" }}</strong></div>
+                <div><span>Status</span><strong>{{ product.Status }}</strong></div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="dashboard-info">
+        <h2>No products registered yet</h2>
+        <p>Register your first product to see it listed here.</p>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('manufacturer.dashboard') }}" class="back-link">
+        ← Back to Dashboard
+    </a>
+</section>
+{% endblock %}
